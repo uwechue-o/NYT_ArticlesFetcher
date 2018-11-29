@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="document"
+            type="com.example.fitness.model.SearchResultsModel_documentNode"
+            />
+    </data>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:fitsSystemWindows="true"
+    >
+
+    <TableLayout
+            android:id="@+id/maincontainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="100dp"
+            android:layout_alignParentTop="true"
+            android:stretchColumns="1">
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_webUrl" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.web_url}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_id" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document._id}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_uri" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.uri}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_snippet" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.snippet}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_printPage" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.print_page}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_source" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.source}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_pubDate" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.pub_date}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_docType" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.document_type}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_newsDesk" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.news_desk}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_score" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{Float.toString(document.score)}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_wordCount" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{Integer.toString(document.word_count)}" />
+            </TableRow>
+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_byline_original" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.byline.original}" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    style="@style/GlowGreenText"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:padding="@dimen/text_margin"
+                    android:text="@string/itemname_byline_organization" />
+
+                <TextView
+                    style="@style/SolarYellowText"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="start"
+                    android:padding="@dimen/text_margin"
+                    android:text="@{document.byline.organization}" />
+            </TableRow>
+        </TableLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_check_yellow_24dp"
+        app:fabSize="normal"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:layout_marginBottom="@dimen/fab_margin_v"
+        android:layout_marginEnd="@dimen/fab_margin_h"
+        app:rippleColor="@android:color/transparent"
+        android:layout_gravity="bottom|end"
+        />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

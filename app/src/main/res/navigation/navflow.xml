@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navflow"
+    app:startDestination="@+id/screen_home">
+
+    <fragment
+        android:id="@+id/screen_home"
+        android:name="com.example.fitness.view.HomeFragment"
+        android:label="Home_Screen"
+        tools:layout="@layout/mainview" >
+        <action
+            android:id="@+id/action_screen_home_to_screen_details"
+            app:destination="@id/screen_details"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/screen_details"
+        android:name="com.example.fitness.view.DetailsFragment"
+        android:label="Article_Details"
+        tools:layout="@layout/detailsview">
+        <action
+            android:id="@+id/action_screen_details_to_screen_home"
+            app:destination="@id/screen_home"
+         />
+    </fragment>
+</navigation>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">NewYorkTimes articles</string>
+
+    <string name="fail_no_image_data">No image file retrieved.</string>
+    <string name="fail_image_webservicecall">Image fetch request failed.</string>
+    <string name="fail_data_fetch">Unable to fetch any articles data at this time.</string>
+
+    <string name="search_title">search</string>
+    <string name="search_hint">type an article topic</string>
+
+    <string name="blank_searchterm">Please provide a search term</string>
+    <string name="back_to_first_page">RESET …</string>
+    <string name="empty_results">No articles matching your keywords found.</string>
+
+    <string name="itemname_id">id</string>
+    <string name="itemname_webUrl">Web URL</string>
+    <string name="itemname_uri">URI</string>
+    <string name="itemname_snippet">snippet</string>
+    <string name="itemname_printPage">Print Page</string>
+    <string name="itemname_source">Source</string>
+    <string name="itemname_pubDate">Publication Date</string>
+    <string name="itemname_docType">Document Type</string>
+    <string name="itemname_newsDesk">NewsDesk</string>
+    <string name="itemname_score">Score</string>
+    <string name="itemname_wordCount">Word Count</string>
+    <string name="itemname_byline_original">Original Author</string>
+    <string name="itemname_byline_organization">Organization</string>
+
+</resources>
