@@ -21,6 +21,7 @@ import androidx.appcompat.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -79,7 +80,7 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
     //private SearchView.OnQueryTextListener queryTextListener;
 
     @NonNull
-    private final DataViewModel viewModel = new DataViewModel();
+    private DataViewModel viewModel;
     private SharedViewModel sviewModel;
 
     // JNI is used for hiding away sensitive credentials e.g. api keys
@@ -153,6 +154,97 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
 
         }
     };
+
+
+    /**
+     * Initialize the viewmodel object
+     */
+    private void initVewModels()
+    {
+        sviewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+        viewModel = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+
+        // create a listener for snackbar message display requests from the ViewModel
+        viewModel.getSnackbarMesgId().observe(this, new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer resourcedID) {
+                if(resourcedID != DataViewModel.RESET)
+                    Snackbar.make(fab, res.getString(resourcedID), Snackbar.LENGTH_LONG).setAction("Action",null).show();
+            }
+        });
+    }
+    //endregion
+
+    // region CREATION CYCLE
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);    // without this, Searchview will not display in fragment
+        //viewModel = ViewModelProviders.of(getActivity()).get(DataViewModel.class);
+
+    }
+
+    @Override
+    public View onCreateView (@NonNull LayoutInflater inflater,
+                              ViewGroup container,
+                              Bundle savedInstanceState){
+
+        View v = inflater.inflate(R.layout.homeview, container, false);
+
+        initRecyclerView(v);
+
+        fab = v.findViewById(R.id.fab);
+        fab.setOnClickListener( vue -> { Snackbar.make(vue, res.getString(R.string.back_to_first_page), Snackbar.LENGTH_LONG).setAction("Action",null).show();
+            DataViewModel.resetSearch();
+            startQuery(searchTerm, DIRECTION.FWD);});
+
+        return(v);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState){
+        super.onActivityCreated(savedInstanceState);
+        initVewModels();
+
+        // initialize system, or else exit if no active internet connection
+        if(!initializeIfNetworkAvailable()){
+
+            getActivity().finish();     // exit the app
+            return;
+        }
+
+        compositeDisposable = new CompositeDisposable();
+
+        UIcontainer = getActivity().findViewById(android.R.id.content);
+
+        spinner = getView().findViewById(R.id.spin_wait);
+
+        res = getResources();   // pre-fetch the Resources instance to avoid multiple method calls
+
+        Intent intent = getActivity().getIntent();
+        handleIntent(intent);
+
+    }
+
+    /**
+     * Initialize search capabilities
+     *
+     * @param menu
+     * @return  TRUE if fully handled here, otherwise FALSE
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.options_menu, menu);
+
+        // Associate searchable configuration with the SearchView
+        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setOnQueryTextListener(this);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+
+        searchView.setOnQueryTextListener(this);
+    }
     //endregion
 
     /**
@@ -199,94 +291,6 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
         });
     }
 
-    // region CREATION CYCLE
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);    // without this, Searchview will not display in fragment
-    }
-
-    @Override
-    public View onCreateView (@NonNull LayoutInflater inflater,
-                              ViewGroup container,
-                              Bundle savedInstanceState){
-
-        View v = inflater.inflate(R.layout.homeview, container, false);
-
-        initRecyclerView(v);
-
-        fab = v.findViewById(R.id.fab);
-        fab.setOnClickListener( vue -> { Snackbar.make(vue, res.getString(R.string.back_to_first_page), Snackbar.LENGTH_LONG).setAction("Action",null).show();
-            DataViewModel.resetSearch();
-            startQuery(searchTerm, DIRECTION.FWD);});
-
-        return(v);
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState){
-        super.onActivityCreated(savedInstanceState);
-        sviewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
-
-        // initialize system, or else exit if no active internet connection
-        if(!initializeIfNetworkAvailable()){
-
-            getActivity().finish();     // exit the app
-            return;
-        }
-
-        compositeDisposable = new CompositeDisposable();
-
-        UIcontainer = getActivity().findViewById(android.R.id.content);
-
-        spinner = getView().findViewById(R.id.spin_wait);
-
-        res = getResources();   // pre-fetch the Resources instance to avoid multiple method calls
-
-        Intent intent = getActivity().getIntent();
-        handleIntent(intent);
-
-    }
-
-    //endregion
-
-    //region    EXTRACT AND PROCESS SEARCH TERMS
-    void handleIntent(Intent intent) {
-
-        Log.w("HandleIntent", "Just entered method...");
-
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-
-            Log.w("HandleIntent", "Search Term = "+query);
-
-            searchTerm = query;     // cache it for Prev/Next scroll mechanism
-
-            startQuery(query, direction);
-        }
-    }
-    //endregion
-
-    /**
-     * Initialize search capabilities
-     *
-     * @param menu
-     * @return  TRUE if fully handled here, otherwise FALSE
-     */
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.options_menu, menu);
-
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager = (SearchManager) getContext().getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setOnQueryTextListener(this);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        searchView.setSubmitButtonEnabled(true);
-
-        searchView.setOnQueryTextListener(this);
-    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -308,7 +312,22 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
     }
     //endregion
 
-    //region    SEARCH INTERFACE METHODS
+    //region    SEARCH HANDLING & SEARCH INTERFACE METHODS
+    void handleIntent(Intent intent) {
+
+        Log.w("HandleIntent", "Just entered method...");
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+
+            Log.w("HandleIntent", "Search Term = "+query);
+
+            searchTerm = query;     // cache it for Prev/Next scroll mechanism
+
+            startQuery(query, direction);
+        }
+    }
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         Log.w(TAG, "onQueryTextSubmit: query->"+query);
@@ -333,6 +352,9 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
      */
     private void startQuery(String searchTerm, DIRECTION direction)
     {
+        // hide the softkeyboard
+        Utils.hideKeyboard(getActivity());
+
         if (searchTerm!=null && !searchTerm.isEmpty()) {
 
             // execute async webservice call
@@ -342,9 +364,6 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
         } else {
             Snackbar.make(UIcontainer, res.getString(R.string.blank_searchterm), Snackbar.LENGTH_LONG).show();
         }
-
-        // hide the softkeyboard
-        Utils.hideKeyboard(getActivity());
 
     }
 
@@ -379,7 +398,7 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
             fabTextView.setText(String.valueOf(newPageNum));
 
             articlesList = new ArrayList<>();
-            adapter = new DataAdapter(articlesList,getContext(), sviewModel, Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment));
+            adapter = new DataAdapter(articlesList, sviewModel, Navigation.findNavController(getActivity(), R.id.my_nav_host_fragment));
 
             Log.w("IN handleResponse--- ","FLAG 3 ------");
 

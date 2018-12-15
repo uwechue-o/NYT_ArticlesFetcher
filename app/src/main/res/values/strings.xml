@@ -11,6 +11,7 @@
     <string name="blank_searchterm">Please provide a search term</string>
     <string name="back_to_first_page">RESET …</string>
     <string name="empty_results">No articles matching your keywords found.</string>
+    <string name="already_at_start">This is the first datapage. Cannot go backwards.</string>
 
     <string name="itemname_id">id</string>
     <string name="itemname_webUrl">Web URL</string>

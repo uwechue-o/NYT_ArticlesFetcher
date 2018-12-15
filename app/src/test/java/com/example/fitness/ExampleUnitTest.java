@@ -2,6 +2,7 @@ package com.example.fitness;
 
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 /**
@@ -11,7 +12,18 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
+    public void dummy1() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void dummy2() {
+        assertEquals(9, 2 + 7);
+    }
+
+    @Test
+    public void dummy3() {
+        assertEquals(4, -2 - -6);
+    }
+
 }

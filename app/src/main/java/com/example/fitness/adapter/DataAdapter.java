@@ -28,14 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
     private final ArrayList<DataUIModel> dataList;
-    private final Context ctx;
     private final WeakReference<SharedViewModel> svm;
-    //public static final String SerializationKey = "com.example.fitness.adapter.dataadapter";
+    //public static final String SerializationKey = "com.example.fitness.adapter.DataAdapter";
     private final WeakReference<NavController> nav;
 
-    public DataAdapter(ArrayList<DataUIModel> dataList, Context ctx, SharedViewModel svm, NavController nav) {
+    public DataAdapter(ArrayList<DataUIModel> dataList, SharedViewModel svm, NavController nav) {
         this.dataList = dataList;
-        this.ctx = ctx;
         this.svm = new WeakReference<>(svm);
         this.nav = new WeakReference<>(nav);
     }

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import com.example.fitness.view.databinding.DetailsviewBinding;
 import com.example.fitness.model.SearchResultsModel_documentNode;
 import com.example.fitness.viewmodel.SharedViewModel;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,8 +22,8 @@ import androidx.navigation.fragment.NavHostFragment;
  *
  *    ---------  Copyright 2018, Oke Uwechue, All rights reserved. ---------
  */
-public class DetailsFragment extends Fragment {
-    SharedViewModel sviewModel;
+public class DetailsFragment extends Fragment
+{
     private SearchResultsModel_documentNode datanode;
     private DetailsviewBinding binding;
 
@@ -58,7 +57,7 @@ public class DetailsFragment extends Fragment {
                                             });
         */
 
-        sviewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+        SharedViewModel sviewModel = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
         sviewModel.getData().observe(getViewLifecycleOwner(), (data) -> {
             datanode.setDocument_type(data.getDocument_type());
             datanode.setScore(data.getScore());

@@ -1,11 +1,17 @@
 package com.example.fitness.viewmodel;
 
+import android.app.Application;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.MutableLiveData;
+// import androidx.lifecycle.ViewModel;
 
 import com.example.fitness.model.SearchResultsModel_documentNode;
 import com.example.fitness.model.SearchResultsModel_parentNode;
 import com.example.fitness.model.SearchResultsModel_response;
+import com.example.fitness.view.R;
 import com.example.fitness.webservices.INewYorkTimesAPI;
 import com.example.fitness.webservices.Utils;
 import com.example.fitness.webservices.Utils.DIRECTION;
@@ -26,12 +32,15 @@ import okhttp3.logging.HttpLoggingInterceptor;
 /**
  * MVVM View model class
  */
-public class DataViewModel extends ViewModel {
+public class DataViewModel extends AndroidViewModel {
 
     private static int pageNum = -1;
+    public static final int RESET = -1;
+
+    private MutableLiveData<Integer> snackbarMesgId=new MutableLiveData<>();
 
     public static void resetSearch(){
-        pageNum = -1;
+        pageNum = RESET;
     }
 
     public static int getPageNum(){
@@ -39,18 +48,42 @@ public class DataViewModel extends ViewModel {
     }
 
     /**
-     * Ensures that negative page numbers are never used and that page numbers above 200 are never used
+     * View can subscribe to this message
+     * @return
+     */
+    public MutableLiveData<Integer> getSnackbarMesgId(){
+        return(snackbarMesgId);
+    }
+
+    /**
+     * Update value of message (which triggers the View to display a mesg)
+     *
+     * @param mesgID
+     */
+    private void setSnackbarMesgId(int mesgID){
+        snackbarMesgId.setValue(mesgID);
+        snackbarMesgId.postValue(mesgID);
+    }
+
+    /**
+     * Ensures that neither page numbers<0 nor page numbers>200 are ever generated
      */
     private void sanitizePagenumber()
     {
-        if(pageNum<0)
+        if(pageNum<0) {
+            Log.e("DVModel","page # requested < 0!");
             pageNum = 0;
+            setSnackbarMesgId(RESET);
+            setSnackbarMesgId(R.string.already_at_start);
+        }
 
         if(pageNum > 200)
             pageNum = 200;
     }
 
-    public DataViewModel(){ }
+    public DataViewModel(Application application){
+        super(application);
+    }
 
     // create data transformer to extract inner 'response' data node when presented with original JSON data
     // use lambda instead of traditional anon class:
