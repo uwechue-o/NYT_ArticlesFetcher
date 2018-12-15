@@ -71,10 +71,11 @@ public class DataViewModel extends AndroidViewModel {
     private void sanitizePagenumber()
     {
         if(pageNum<0) {
-            Log.e("DVModel","page # requested < 0!");
+            //Log.w("DVModel","page # requested < 0!");
             pageNum = 0;
-            setSnackbarMesgId(RESET);
+            setSnackbarMesgId(RESET);       // wrap actual string mesg in RESETs to prevent multiple invocations of snackbar mesg display
             setSnackbarMesgId(R.string.already_at_start);
+            setSnackbarMesgId(RESET);
         }
 
         if(pageNum > 200)

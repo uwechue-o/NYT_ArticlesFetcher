@@ -357,6 +357,8 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
 
         if (searchTerm!=null && !searchTerm.isEmpty()) {
 
+            spinner.setVisibility(View.VISIBLE);
+
             // execute async webservice call
             disposable = viewModel.doDataFetch(searchTerm, apiKey, direction).subscribe(this::handleResponse, this::handleError);
             compositeDisposable.add(disposable);
@@ -433,6 +435,9 @@ public class HomeFragment extends ObserverFragment implements SearchView.OnQuery
                 IntStream.range(0, 10).forEach(x -> Log.w("FLAG 7 -- adapter pos"+x, String.valueOf(adapter.getItemId(x))));
 
             }   // end for
+            if(numberOfThumbnails==0){      // no images in resultset therefore remove progressbar immediately
+                spinner.setVisibility(View.INVISIBLE);
+            }
 
             recyclerView.setAdapter(adapter);
         }   // end else
